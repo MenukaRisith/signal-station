@@ -17,7 +17,7 @@ Open `index.html` in a browser or deploy the three source files to any static ho
 - Drag the frequency dial or use Left/Right Arrow keys.
 - When a carrier is clear, use **Lock Signal** or Enter.
 - Decode all three signals and broadcast the route.
-- Use **Sound: Off** in the header to enable original synthesized receiver sounds.
+- Original synthesized receiver sounds are on by default; use the header control to mute them.
 - Use Reset to replay the experience.
 
 ## Files

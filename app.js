@@ -16,12 +16,12 @@ const footer = document.querySelector('#footerState');
 const chart = document.querySelector('#chart');
 const soundButton = document.querySelector('#soundButton');
 let found = new Set();
-let soundOn = false;
+let soundOn = true;
 let audio;
 
+function prepareSound() { audio ||= new AudioContext(); }
 function sound(kind) {
-  if (!soundOn) return;
-  audio ||= new AudioContext();
+  if (!soundOn || !audio) return;
   const oscillator = audio.createOscillator();
   const gain = audio.createGain();
   const notes = { tune: [180, .025], lock: [660, .12], reset: [220, .08], broadcast: [440, .36] };
@@ -66,7 +66,9 @@ frequency.addEventListener('input', tune);
 lock.addEventListener('click', lockSignal);
 document.querySelector('#resetButton').addEventListener('click', reset);
 broadcast.addEventListener('click', () => { sound('broadcast'); showDialog('#successDialog'); });
-soundButton.addEventListener('click', () => { soundOn = !soundOn; soundButton.setAttribute('aria-pressed', soundOn); soundButton.textContent = `SOUND: ${soundOn ? 'ON' : 'OFF'}`; sound('lock'); });
+soundButton.addEventListener('click', () => { soundOn = !soundOn; soundButton.setAttribute('aria-pressed', soundOn); soundButton.setAttribute('aria-label', `${soundOn ? 'Disable' : 'Enable'} interface sound`); soundButton.textContent = `SOUND: ${soundOn ? 'ON' : 'OFF'}`; if (soundOn) { prepareSound(); sound('lock'); } });
+document.addEventListener('pointerdown', prepareSound, { once: true });
+document.addEventListener('keydown', prepareSound, { once: true });
 document.querySelector('#briefButton').addEventListener('click', () => showDialog('#briefDialog'));
 document.querySelectorAll('.close').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
 document.addEventListener('keydown', event => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { frequency.value = Number(frequency.value) + (event.key === 'ArrowLeft' ? -1 : 1); frequency.dispatchEvent(new Event('input')); } if (event.key === 'Enter' && !lock.disabled) lockSignal(); });
