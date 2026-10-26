@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A fictional retro radio-analysis desktop simulation.">
+  <title>SIGNAL//STATION</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Pixelify+Sans:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="polish.css">
+  <link rel="stylesheet" href="desktop.css">
+  <link rel="stylesheet" href="atmosphere.css">
+</head>
+<body>
+  <section id="boot" class="boot-screen" aria-live="polite"><pre>SIGNAL STATION BIOS v1.98
+MEMORY CHECK ............ OK
+COASTAL LINK ............ OK
+RECEIVER ARRAY .......... READY
+LOADING OCEANLINK DESKTOP</pre><p>PRESS ANY KEY TO SKIP</p></section>
+  <main class="station" aria-label="Signal Station radio analysis desktop">
+    <header class="topbar">
+      <div class="brand"><span class="mark" aria-hidden="true">⌁</span><span>SIGNAL//STATION</span><small>CSB-48 / v1.98</small></div>
+      <div class="status"><span class="live-dot"></span> NORTH SEA RELAY <b>ONLINE</b> <button id="soundButton" class="sound" type="button" aria-pressed="false" aria-label="Enable interface sound">SOUND: OFF</button> <time id="clock"></time></div>
+    </header>
+
+    <section class="masthead">
+      <div><p class="eyebrow">COASTAL SIGNAL BUREAU / 17 OCT 1998</p><h1>Decode the storm.<br><em>Keep the coast awake.</em></h1></div>
+      <button id="briefButton" class="utility" type="button">MISSION BRIEF <span>↗</span></button>
+    </section>
+
+    <nav class="app-icons" aria-label="Desktop applications"><button data-app="spectrum-window"><b>▣</b>Spectrum</button><button data-app="chart-window"><b>▤</b>Weather Grid</button><button data-app="log-window"><b>▧</b>Field Log</button></nav>
+    <section class="desktop" aria-label="Analysis workspace">
+      <div class="coastal-ambience" aria-hidden="true"><i class="moon"></i><i class="beacon"></i><i class="shore"></i><small>GULL ROCK / 54° 18' N &nbsp; 01° 12' W</small></div>
+      <article class="window spectrum-window">
+        <header><span class="dot cyan"></span><b>SPECTRUM RECEIVER</b><span>CH. 07 / 14.820 MHz</span><i>− □ ×</i></header>
+        <div class="receiver">
+          <div class="signal-screen" id="signalScreen" aria-live="polite">
+            <span class="screen-rivet r1" aria-hidden="true"></span><span class="screen-rivet r2" aria-hidden="true"></span><span class="screen-rivet r3" aria-hidden="true"></span><span class="screen-rivet r4" aria-hidden="true"></span>
+            <div class="scan-line"></div>
+            <p class="screen-label">INCOMING COASTAL TRANSMISSION</p>
+            <div class="wave" id="wave" aria-hidden="true"></div>
+            <p class="code" id="code">-- .- .-. .. -. . / .-- .- .-. -. .. -. --.</p>
+            <p class="screen-state" id="screenState">TUNE THE DIAL TO ISOLATE A SIGNAL</p>
+          </div>
+          <div class="tuner">
+            <p class="plate">MARCONI COASTAL RECEIVER<br><b>MODEL CSB-48</b></p>
+            <label for="frequency">FREQUENCY <output id="frequencyOutput">14.820</output> MHz</label>
+            <input id="frequency" type="range" min="0" max="100" value="24" aria-describedby="tunerHint">
+            <p id="tunerHint">Find three clear transmissions. Precision matters.</p>
+            <button id="lockButton" type="button" disabled>LOCK SIGNAL</button>
+            <div class="frequency-notches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="hardware-controls" aria-hidden="true"><span><i class="knob"></i>FINE</span><span><i class="knob small"></i>GAIN</span><span><i class="lamp"></i>POWER</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="window chart-window">
+        <header><span class="dot amber"></span><b>WEATHER GRID</b><span>FORECAST MODEL</span><i>− □ ×</i></header>
+        <div class="chart-wrap">
+          <div class="chart" id="chart" aria-label="Storm pressure forecast"></div>
+          <div class="chart-key"><span><i class="amber-line"></i> storm front</span><span><i class="cyan-line"></i> safe corridor</span></div>
+          <p id="forecast">Awaiting transmissions to build a safe route.</p>
+        </div>
+      </article>
+
+      <article class="window log-window">
+        <header><span class="dot green"></span><b>FIELD LOG</b><span>DECODED: <strong id="decodedCount">0</strong>/3</span><i>− □ ×</i></header>
+        <ol id="log"><li class="pending">[ ? ] Signal 01 — unverified</li><li class="pending">[ ? ] Signal 02 — unverified</li><li class="pending">[ ? ] Signal 03 — unverified</li></ol>
+        <div class="action-row"><button id="broadcastButton" type="button" disabled>BROADCAST SAFE ROUTE</button><button id="resetButton" class="ghost" type="button">RESET</button></div>
+      </article>
+    </section>
+
+    <footer><button class="start-button" type="button">OCEANLINK</button><span>OPERATIONS: tune → lock → analyze</span><span>Keyboard: <kbd>←</kbd> <kbd>→</kbd> tune · <kbd>Enter</kbd> lock</span><span id="footerState">3 signals needed</span></footer>
+  </main>
+
+  <dialog id="briefDialog"><button class="close" aria-label="Close brief" type="button">×</button><p class="eyebrow">OPERATION BLUE LANTERN</p><h2>A storm has erased the usual radio route.</h2><p>Three lighthouse relays are broadcasting fragments of the only safe passage. Tune precisely, lock each signal, and send the route before the window closes.</p><button class="primary close" type="button">BEGIN ANALYSIS</button></dialog>
+  <dialog id="successDialog"><p class="eyebrow">BROADCAST COMPLETE</p><h2>Safe corridor transmitted.</h2><p>The coastal relays have received the route. The beacon network holds through the storm.</p><button class="primary close" type="button">RETURN TO DESK</button></dialog>
+  <script src="app.js"></script>
+</body>
+</html>
